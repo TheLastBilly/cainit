@@ -1,0 +1,82 @@
+#include "Parser.hpp"
+
+Parser::Parser()
+{}
+
+Parser::Parser( const Parser &parser )
+{
+    files = parser.files;
+}
+
+Parser::~Parser()
+{}
+
+Cainit::ErrorValue 
+Parser::ParseFile( std::string path )
+{
+    if(path.empty())
+        return Cainit::ErrorValue::NO_PATH_ERROR;
+
+    std::ifstream file(path.c_str(), std::fstream::in);
+    if(!file.is_open())
+        return Cainit::ErrorValue::FILE_PATH_ERROR;
+
+    Cainit::ErrorValue error = Cainit::ErrorValue::A_OK;
+    Cainit::File w_file;
+    
+    std::string line;
+    parser_buff buffer;
+    bool has_class = false;
+    while( std::getline(file, line) )
+    {
+        error = ParseLine( line, buffer );
+        if(error == Cainit::ErrorValue::FILE_FORMAT_ERROR)
+        {
+            std::stringstream ss;
+            ss << "Error in line " << buffer.line_count << ":\t" << line;
+            error_line = ss.str();
+        }
+    }
+    return error;
+}
+
+Cainit::ErrorValue 
+Parser::ParseLine( std::string line, parser_buff &buff )
+{
+    static const 
+        Cainit::ErrorValue on_error = Cainit::ErrorValue::FILE_FORMAT_ERROR;
+    static const
+        Cainit::ErrorValue on_success = Cainit::ErrorValue::A_OK;
+    buff.line_count =+1;
+    if(!fil(line, ";", end) || !fil(line, " ", tar) || end < tar)
+        return Cainit::ErrorValue::FILE_FORMAT_ERROR;
+    else if(fil(line,"file", pos))
+    {
+        buff.has_file = true;
+        if(!buff.file.IsEmpty())
+        {
+            files.push_back(buff.file);
+            buff.classes.clear();
+            buff.file.Clear();
+        }
+        buff.file.name = line.substr(pos + 5, end - (pos + 5));
+        buff.has_class = false;
+    }
+    else if(fil(line,"class", pos))
+    {
+        if(!buff.has_file)
+            return on_error;
+        line = line.substr(pos + 6, end - (pos + 6));
+        buff.classes.push_back( Cainit::Class(line) );
+        buff.has_class = true;
+    }
+    else if(fil(line, "header", pos))
+    {
+        if(!buff.has_file)
+    }
+}
+
+inline bool Parser::fil( std::string line, const char * find, size_t & pos)
+{
+    return (pos = line.find("class")) != std::string::npos;
+}
