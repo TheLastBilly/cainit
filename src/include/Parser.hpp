@@ -29,6 +29,7 @@ private:
             has_class = false;
         int line_count = 0;
         Cainit::class_v classes;
+        Cainit::header_v headers;
         Cainit::File file;
     };
 

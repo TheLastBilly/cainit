@@ -53,6 +53,8 @@ Parser::ParseLine( std::string line, parser_buff &buff )
     else if(fil(line,"file", pos))
     {
         buff.has_file = true;
+        buff.file.classes = buff.classes;
+        buff.file.headers = buff.headers;
         if(!buff.file.IsEmpty())
         {
             files.push_back(buff.file);
@@ -73,6 +75,16 @@ Parser::ParseLine( std::string line, parser_buff &buff )
     else if(fil(line, "header", pos))
     {
         if(!buff.has_file)
+            return on_error;
+        
+        line = line.substr(pos + 7, end - (pos + 7));
+        buff.headers.push_back( Cainit::Header(line) );
+    }
+    else if(buff.has_class)
+    {
+        buff.classes.back().variables.push_back(
+            Cainit::Variable( line.substr(0, tar-1), line.substr(tar+1, end-tar-1) )
+        );
     }
 }
 

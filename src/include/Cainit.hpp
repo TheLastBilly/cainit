@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <vector>
+#include <sstream>
+#include <cstring>
+#include <cstdio>
 
 namespace Cainit
 {
@@ -11,14 +14,15 @@ namespace Cainit
         NO_PATH_ERROR,
         FILE_FORMAT_ERROR,
         FILE_PATH_ERROR,
+        FILE_EMPTY_ERROR,
         A_OK
     };
     class Variable
     {
     public:
-        Variable( std::string type, std::string value );        
+        Variable( std::string type, std::string name );        
         Variable( const Variable & variable );
-        std::string type, value;
+        std::string type, name;
     };
     typedef std::vector<Variable> variable_v;
 
@@ -41,6 +45,13 @@ namespace Cainit
     };
     typedef std::vector<Class> class_v;
 
+    struct CodeFile
+    {
+        std::string 
+            name,
+            contents;
+    };
+
     class File
     {
     public:
@@ -50,11 +61,18 @@ namespace Cainit
         ~File();
         bool IsEmpty();
         void Clear();
-        ErrorValue WriteToDirectory( std::string dir );
+        ErrorValue BuildFiles();
+
         std::string name;
         header_v headers;
         class_v classes;
+
+        CodeFile source, declarations;
+        
+        ErrorValue BuildHeader();
+        ErrorValue BuildSource();   
     };
     typedef std::vector<File> file_v;
 
+    std::string FirstUpper( std::string s );
 }
