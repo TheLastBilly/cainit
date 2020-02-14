@@ -22,18 +22,18 @@ public:
     void SetFiles( Cainit::file_v files );
 
 private:
-    struct parser_buff
+    struct ParserBuffer
     {
         bool 
-            has_file = false,
-            has_class = false;
-        int line_count = 0;
+            has_file,
+            has_class;
+        int line_count;
         Cainit::class_v classes;
         Cainit::header_v headers;
         Cainit::File file;
     };
 
-    Cainit::ErrorValue ParseLine( std::string line, parser_buff &buff );
+    Cainit::ErrorValue ParseLine( std::string line, ParserBuffer &buff );
 
     Cainit::file_v files;
 

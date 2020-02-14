@@ -14,7 +14,9 @@ INCLUDES=\
 
 SRCS=\
 	$(SRC_DIR)/main.cpp\
-	$(SRC_DIR)Reference.cpp
+	$(SRC_DIR)/File.cpp\
+	$(SRC_DIR)/Parser.cpp\
+	$(SRC_DIR)/Cainit.cpp
 
 OBJS=$(SRCS:.cpp=.o)
 

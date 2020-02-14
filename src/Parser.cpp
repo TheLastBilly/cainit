@@ -22,11 +22,9 @@ Parser::ParseFile( std::string path )
         return Cainit::ErrorValue::FILE_PATH_ERROR;
 
     Cainit::ErrorValue error = Cainit::ErrorValue::A_OK;
-    Cainit::File w_file;
     
     std::string line;
-    parser_buff buffer;
-    bool has_class = false;
+    ParserBuffer buffer;
     while( std::getline(file, line) )
     {
         error = ParseLine( line, buffer );
@@ -41,7 +39,7 @@ Parser::ParseFile( std::string path )
 }
 
 Cainit::ErrorValue 
-Parser::ParseLine( std::string line, parser_buff &buff )
+Parser::ParseLine( std::string line, ParserBuffer &buff )
 {
     static const 
         Cainit::ErrorValue on_error = Cainit::ErrorValue::FILE_FORMAT_ERROR;
@@ -86,6 +84,7 @@ Parser::ParseLine( std::string line, parser_buff &buff )
             Cainit::Variable( line.substr(0, tar-1), line.substr(tar+1, end-tar-1) )
         );
     }
+    return on_success;
 }
 
 inline bool Parser::fil( std::string line, const char * find, size_t & pos)

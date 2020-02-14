@@ -23,8 +23,8 @@ namespace Cainit
         Variable( std::string type, std::string name );        
         Variable( const Variable & variable );
 
-        inline std::string GetFuncDeclaration();
-        inline std::string SetFuncDeclaration();
+        std::string GetFuncDeclaration();
+        std::string SetFuncDeclaration();
 
         std::string GetFuncDefinition( std::string class_name );
         std::string SetFuncDefinition( std::string class_name );
@@ -72,6 +72,7 @@ namespace Cainit
     class File
     {
     public:
+        File();
         File( std::string name );
         File( std::string name, header_v headers, class_v classes );
         File( const File &f );

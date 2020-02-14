@@ -75,3 +75,16 @@ Class::Class( const Class &c )
     name = c.name;
     variables = c.variables;
 }
+
+CodeFile::CodeFile()
+{}
+
+CodeFile::CodeFile( std::string name, std::string contents ):
+name(name), contents(contents)
+{}
+
+bool CodeFile::IsEmpty()
+{
+    return name.empty() && contents.empty();
+}
+

@@ -2,12 +2,18 @@
 
 using namespace Cainit;
 
+File::File()
+{}
+
 File::File( std::string name ):
 name(name)
 {}
 
 File::File( std::string name, header_v headers, class_v classes ):
 name(name), headers(headers), classes(classes)
+{}
+
+File::~File()
 {}
 
 File::File( const File &f )
