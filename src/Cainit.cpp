@@ -59,7 +59,7 @@ std::string Variable::GetFuncDefinition( std::string class_name )
     size_t func_t = (type + " ").size();    
     std::stringstream ss;
     ss 
-        << type << " " << class_name << "::" << get_func_dec.substr(func_t, func_t- get_func_dec.size() -2) << "\n"
+        << type << " " << class_name << "::" << get_func_dec.substr(func_t, get_func_dec.size()- func_t-1) << "\n"
         << "{\n"
         << "\treturn " << name << ";\n"
         << "}";
@@ -77,7 +77,7 @@ std::string Variable::SetFuncDefinition( std::string class_name )
         SetFuncDeclaration();
     std::stringstream ss;
     ss
-        << "void " << class_name << "::" << set_func_dec.substr(5, 4 - set_func_dec.size()) << "\n"
+        << "void " << class_name << "::" << set_func_dec.substr(5, set_func_dec.size() - 6) << "\n"
         << "{\n"
         << "\t" << name << " = " <<  name[0] << ";\n"
         << "}";

@@ -60,6 +60,7 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
         {
             files.push_back(buff.file);
             buff.classes.clear();
+            buff.headers.clear();
             buff.file.Clear();
         }
         buff.file.name = line.substr(pos + 5, end - (pos + 5));
