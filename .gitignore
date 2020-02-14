@@ -1,3 +1,14 @@
 .vscode
 *.o
+autom4te.cache
+*.in
+*.m4
+configure
+depcomp
+install-sh
+missing
+Makefile
+config.*
+stamp-h1
 cainit
+*.Po

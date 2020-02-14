@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 
-#include "Parser.hpp"
-#include "Cainit.hpp"
+#include "include/Parser.hpp"
+#include "include/Cainit.hpp"
 
 inline void PrintHelp()
 {

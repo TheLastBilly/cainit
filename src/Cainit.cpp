@@ -1,4 +1,4 @@
-#include "Cainit.hpp"
+#include "include/Cainit.hpp"
 
 using namespace Cainit;
 
@@ -47,7 +47,7 @@ std::string Variable::FirstUpper( )
     return r;
 }
 
-inline std::string Variable::GetFuncDeclaration()
+std::string Variable::GetFuncDeclaration()
 {
     return (get_func_dec = type + " Get" + FirstUpper() + "() const;");
 }
@@ -66,7 +66,7 @@ std::string Variable::GetFuncDefinition( std::string class_name )
     return (get_func_def = ss.str());
 }
 
-inline std::string Variable::SetFuncDeclaration()
+std::string Variable::SetFuncDeclaration()
 {
     return (set_func_dec = "void Set" + FirstUpper() + "( " + type + " " + name[0] +" );");
 }
