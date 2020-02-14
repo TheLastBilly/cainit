@@ -44,7 +44,24 @@ ErrorValue File::BuildFiles()
 
 ErrorValue File::BuildSource()
 {
-    
+    if(declarations.IsEmpty())
+        BuildHeader();
+
+    std::stringstream ss;
+    ss 
+        << "#include " << '"' << declarations.name << '"' << "\n\n";
+    for( Class c : classes )
+    {
+        for( Variable var : c.variables )
+        {
+            ss 
+                << "// " << var.name << " Get and Set\n"
+                << var.GetFuncDefinition( c.name ) << "\n"
+                << var.SetFuncDefinition( c.name ) << "\n\n";
+        }
+    }
+
+    return ErrorValue::A_OK;
 }
 
 ErrorValue File::BuildHeader()
@@ -58,18 +75,16 @@ ErrorValue File::BuildHeader()
     }
 
     ss << "\n\n";
-    std::string varUpper;
 
     for( Class c : classes )
     {
         //Variables methods and declarations
         for( Variable var : c.variables )
         {
-            varUpper = FirstUpper(var.name);
             getset 
                 << "\t// " << var.name << " gets and sets\n"
-                << "\t" << var.type << " Get" << varUpper << "() const;\n"
-                << "\t" << "void Set" << varUpper << "( " << var.type << " " << var.name[0] << " );\n";
+                << "\t" << var.GetFuncDeclaration() << "\n"
+                << "\t" << var.SetFuncDeclaration() << "\n";
             vars 
                 << "\t" << var.type << var.name << ";\n";
         }
@@ -92,7 +107,7 @@ ErrorValue File::BuildHeader()
 
         //Add variable declarations
         ss 
-            << "private:\n" 
+            << "\nprivate:\n" 
             << vars.str()
             << "};";
     }

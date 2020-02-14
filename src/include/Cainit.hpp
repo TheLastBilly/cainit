@@ -22,7 +22,20 @@ namespace Cainit
     public:
         Variable( std::string type, std::string name );        
         Variable( const Variable & variable );
-        std::string type, name;
+
+        inline std::string GetFuncDeclaration();
+        inline std::string SetFuncDeclaration();
+
+        std::string GetFuncDefinition( std::string class_name );
+        std::string SetFuncDefinition( std::string class_name );
+
+        std::string 
+            type, name,
+            get_func_dec, get_func_def,
+            set_func_dec, set_func_def;
+
+    private:
+        std::string FirstUpper();    
     };
     typedef std::vector<Variable> variable_v;
 
@@ -45,11 +58,15 @@ namespace Cainit
     };
     typedef std::vector<Class> class_v;
 
-    struct CodeFile
+    class CodeFile
     {
+    public:    
+        CodeFile();
+        CodeFile(std::string name, std::string contents);
         std::string 
             name,
             contents;
+        bool IsEmpty();
     };
 
     class File
@@ -75,4 +92,5 @@ namespace Cainit
     typedef std::vector<File> file_v;
 
     std::string FirstUpper( std::string s );
+    inline std::string GetGetter( Variable var );
 }
