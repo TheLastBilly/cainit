@@ -27,6 +27,8 @@ Parser::ParseFile( std::string path )
     ParserBuffer buffer;
     while( std::getline(file, line) )
     {
+        if(line[0] == '#' || line.empty())
+            continue;
         error = ParseLine( line, buffer );
         if(error == Cainit::ErrorValue::FILE_FORMAT_ERROR)
         {
@@ -64,6 +66,8 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
             buff.file.Clear();
         }
         buff.file.name = line.substr(pos + 5, end - (pos + 5));
+        if( buff.file.name.find(" ") )
+            return on_error;
         buff.has_class = false;
     }
     else if(fil(line,"class", pos))
