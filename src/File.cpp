@@ -67,6 +67,8 @@ ErrorValue File::BuildSource()
         }
     }
 
+    definitions.name = name + ".cpp";
+    definitions.contents = ss.str();
     return ErrorValue::A_OK;
 }
 
@@ -80,7 +82,7 @@ ErrorValue File::BuildHeader()
         ss << "#include " << h.name << "\n";
     }
 
-    ss << "\n\n";
+    ss << "\n";
 
     for( Class c : classes )
     {
@@ -92,7 +94,7 @@ ErrorValue File::BuildHeader()
                 << "\t" << var.GetFuncDeclaration() << "\n"
                 << "\t" << var.SetFuncDeclaration() << "\n";
             vars 
-                << "\t" << var.type << var.name << ";\n";
+                << "\t" << var.type << " " << var.name << ";\n";
         }
 
         ss 
@@ -100,10 +102,8 @@ ErrorValue File::BuildHeader()
             << "class " << c.name << "\n"
             << "{\npublic:\n"
         //Class constructor        
-            << "\t" << c.name << "();";
-
+            << "\t" << c.name << "();\n"
         //Copy constructor        
-        ss
             << "\t" << c.name << "( const " << c.name << " &" << c.name[0] << ");\n"
         //Class destructor        
             << "\t~" << c.name << "();\n";

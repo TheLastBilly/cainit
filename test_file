@@ -1,0 +1,8 @@
+file TestFile;
+header <iostream>;
+class test;
+int hola;
+file ReservationManager;
+header <iostream>;
+class ReservationManager;
+int test;

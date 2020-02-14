@@ -35,6 +35,9 @@ Parser::ParseFile( std::string path )
             error_line = ss.str();
         }
     }
+    buffer.file.classes = buffer.classes;
+    buffer.file.headers = buffer.headers;
+    files.push_back(buffer.file);
     return error;
 }
 
@@ -81,7 +84,7 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
     else if(buff.has_class)
     {
         buff.classes.back().variables.push_back(
-            Cainit::Variable( line.substr(0, tar-1), line.substr(tar+1, end-tar-1) )
+            Cainit::Variable( line.substr(0, tar), line.substr(tar+1, end-tar-1) )
         );
     }
     return on_success;
@@ -89,5 +92,5 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
 
 inline bool Parser::fil( std::string line, const char * find, size_t & pos)
 {
-    return (pos = line.find("class")) != std::string::npos;
+    return (pos = line.find(find)) != std::string::npos;
 }

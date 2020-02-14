@@ -18,8 +18,7 @@ public:
 
     Cainit::ErrorValue ParseFile( std::string path );
 
-    Cainit::file_v GetFiles();
-    void SetFiles( Cainit::file_v files );
+    Cainit::file_v files;
 
 private:
     struct ParserBuffer
@@ -34,8 +33,6 @@ private:
     };
 
     Cainit::ErrorValue ParseLine( std::string line, ParserBuffer &buff );
-
-    Cainit::file_v files;
 
     //Varaibles and methods used by the parsing process
     size_t pos = 0, end = 0, tar = 0;

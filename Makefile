@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-PROJECT_NAME=journali
+PROJECT_NAME=cainit
 
 CXX=g++
 CPP_FLAGS=-std=c++14 -Wall -lssl -lcrypto

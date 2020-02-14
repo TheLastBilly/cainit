@@ -2,6 +2,33 @@
 
 using namespace Cainit;
 
+std::string Cainit::GetErrorDescription( ErrorValue err )
+{
+    std::string desc;
+    switch (err)
+    {
+    case ErrorValue::NO_FILE_ERROR:
+        desc = "No such file found.";
+        break;
+    case ErrorValue::NO_PATH_ERROR:
+        desc = "No suck path found.";
+        break;
+    case ErrorValue::FILE_FORMAT_ERROR:
+        desc = "File format error.";
+        break;
+    case ErrorValue::FILE_PATH_ERROR:
+        desc = "Error accessing file path.";
+        break;
+    case ErrorValue::FILE_EMPTY_ERROR:
+        desc = "File is empty.";
+        break;
+    case ErrorValue::A_OK:
+        desc = "No errors found.";
+        break;
+    }
+    return desc;
+}
+
 Variable::Variable( std::string type, std::string name ):
 type(type), name(name)
 {}
@@ -41,7 +68,7 @@ std::string Variable::GetFuncDefinition( std::string class_name )
 
 inline std::string Variable::SetFuncDeclaration()
 {
-    return (set_func_dec = "void Set" + FirstUpper() + "( " + type + name[0] +" );");
+    return (set_func_dec = "void Set" + FirstUpper() + "( " + type + " " + name[0] +" );");
 }
 
 std::string Variable::SetFuncDefinition( std::string class_name )

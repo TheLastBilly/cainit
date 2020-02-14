@@ -17,6 +17,9 @@ namespace Cainit
         FILE_EMPTY_ERROR,
         A_OK
     };
+
+    std::string GetErrorDescription( ErrorValue err );
+
     class Variable
     {
     public:
@@ -85,7 +88,7 @@ namespace Cainit
         header_v headers;
         class_v classes;
 
-        CodeFile source, declarations;
+        CodeFile definitions, declarations;
         
         ErrorValue BuildHeader();
         ErrorValue BuildSource();   
