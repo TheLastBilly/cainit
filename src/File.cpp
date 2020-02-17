@@ -61,17 +61,26 @@ ErrorValue File::BuildSource()
     if(declarations.IsEmpty())
         BuildHeader();
 
-    std::stringstream ss;
+    std::stringstream ss, o_ss;
     ss 
         << "#include " << '"' << declarations.name << '"' << "\n\n";
+        
     for( Class c : classes )
     {
+        ss 
+            << c.name << "::" << c.name << "()\n{}\n\n"
+            << c.name << "::~" << c.name << "()\n{}\n\n"
+            << c.name << "::" << c.name << "( const " << c.name << " &" << c.name[0] << " )\n{\n";
+        for( Variable var : c.variables )
+        {
+            ss << "\t" << var.name << " = " << c.name[0] << "." << var.name << ";\n";
+        }
+        ss << "}\n\n";
         for( Variable var : c.variables )
         {
             if(!var.has_set_get)
                 continue;
-            ss 
-                << "// " << var.name << " Get and Set\n"
+            ss
                 << var.GetFuncDefinition( c.name ) << "\n"
                 << var.SetFuncDefinition( c.name ) << "\n\n";
         }
@@ -103,8 +112,7 @@ ErrorValue File::BuildHeader()
                 << "\t" << var.type << " " << var.name << ";\n";
             if(!var.has_set_get)
                 continue;
-            getset 
-                << "\t// " << var.name << " gets and sets\n"
+            getset
                 << "\t" << var.GetFuncDeclaration() << "\n"
                 << "\t" << var.SetFuncDeclaration() << "\n";
         }
