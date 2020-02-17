@@ -29,7 +29,10 @@ int main(int argc, char const *argv[])
     Cainit::ErrorValue error;
     if((error = parser.ParseFile( argv[1] )) != Cainit::ErrorValue::A_OK)
     {
-        std::cout << "[ERROR]: " << Cainit::GetErrorDescription(error);
+        std::cout << "[ERROR]: " << Cainit::GetErrorDescription(error) << "\n";
+        if(error == Cainit::ErrorValue::FILE_FORMAT_ERROR)
+            std::cout << parser.error_line;
+        return 1;            
     }
     std::ofstream f;
     for( Cainit::File file : parser.files )

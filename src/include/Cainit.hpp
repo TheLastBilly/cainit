@@ -31,6 +31,7 @@ namespace Cainit
     class Variable
     {
     public:
+        Variable( std::string type, std::string name, bool has_set_get );
         Variable( std::string type, std::string name );        
         Variable( const Variable & variable );
 
@@ -44,6 +45,8 @@ namespace Cainit
             type, name,
             get_func_dec, get_func_def,
             set_func_dec, set_func_def;
+
+        bool has_set_get = true;        
 
     private:
         std::string FirstUpper();    
@@ -64,7 +67,9 @@ namespace Cainit
     public:        
         Class( std::string name );
         Class( const Class &c );
-        std::string name;
+        std::string
+            name,
+            derived;
         variable_v variables;
     };
     typedef std::vector<Class> class_v;

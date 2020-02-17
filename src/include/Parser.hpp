@@ -28,13 +28,15 @@ public:
 
     Cainit::file_v files;
 
+    std::string error_line;
+
 private:
     struct ParserBuffer
     {
         bool 
-            has_file,
-            has_class;
-        int line_count;
+            has_file = false,
+            has_class = false;
+        int line_count = 0;
         Cainit::class_v classes;
         Cainit::header_v headers;
         Cainit::File file;
@@ -45,5 +47,4 @@ private:
     //Varaibles and methods used by the parsing process
     size_t pos = 0, end = 0, tar = 0;
     static inline bool fil( std::string line, const char * find, size_t & pos);
-    std::string error_line;
 };

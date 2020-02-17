@@ -37,6 +37,10 @@ std::string Cainit::GetErrorDescription( ErrorValue err )
     return desc;
 }
 
+Variable::Variable( std::string type, std::string name, bool has_set_get ):
+type(type), name(name), has_set_get(has_set_get)
+{}
+
 Variable::Variable( std::string type, std::string name ):
 type(type), name(name)
 {}
@@ -45,6 +49,7 @@ Variable::Variable( const Variable &variable )
 {
     type = variable.type;
     name = variable.name;
+    has_set_get = variable.has_set_get;
 }
 
 std::string Variable::FirstUpper( )
@@ -108,6 +113,7 @@ name(name)
 Class::Class( const Class &c )
 {
     name = c.name;
+    derived = c.derived;
     variables = c.variables;
 }
 

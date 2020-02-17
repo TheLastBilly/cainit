@@ -35,14 +35,16 @@ Parser::ParseFile( std::string path )
     ParserBuffer buffer;
     while( std::getline(file, line) )
     {
+        buffer.line_count++;
         if(line[0] == '#' || line.empty())
             continue;
         error = ParseLine( line, buffer );
         if(error == Cainit::ErrorValue::FILE_FORMAT_ERROR)
         {
             std::stringstream ss;
-            ss << "Error in line " << buffer.line_count << ":\t" << line;
+            ss << "Error in line " << buffer.line_count << ": " << line << "\n";
             error_line = ss.str();
+            return error;
         }
     }
     buffer.file.classes = buffer.classes;
@@ -54,14 +56,16 @@ Parser::ParseFile( std::string path )
 Cainit::ErrorValue 
 Parser::ParseLine( std::string line, ParserBuffer &buff )
 {
+    if(line.size() < 3)
+        return Cainit::ErrorValue::A_OK;
+    bool has_set_get = true;
     static const 
         Cainit::ErrorValue on_error = Cainit::ErrorValue::FILE_FORMAT_ERROR;
     static const
         Cainit::ErrorValue on_success = Cainit::ErrorValue::A_OK;
-    buff.line_count =+1;
     if(!fil(line, ";", end) || !fil(line, " ", tar) || end < tar)
         return Cainit::ErrorValue::FILE_FORMAT_ERROR;
-    else if(fil(line,"file", pos))
+    else if(fil(line,"file", pos) && pos < end )
     {
         buff.has_file = true;
         buff.file.classes = buff.classes;
@@ -74,11 +78,9 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
             buff.file.Clear();
         }
         buff.file.name = line.substr(pos + 5, end - (pos + 5));
-        if( buff.file.name.find(" ") )
-            return on_error;
         buff.has_class = false;
     }
-    else if(fil(line,"class", pos))
+    else if(fil(line,"class", pos) && pos < end)
     {
         if(!buff.has_file)
             return on_error;
@@ -86,7 +88,7 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
         buff.classes.push_back( Cainit::Class(line) );
         buff.has_class = true;
     }
-    else if(fil(line, "header", pos))
+    else if(fil(line, "header", pos) && pos < end)
     {
         if(!buff.has_file)
             return on_error;
@@ -94,10 +96,29 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
         line = line.substr(pos + 7, end - (pos + 7));
         buff.headers.push_back( Cainit::Header(line) );
     }
-    else if(buff.has_class)
+    else if(fil(line, "derived", pos) && pos < end)
     {
+        if(!buff.has_class)
+            return on_error;
+
+        line = line.substr( pos + 8, end - (pos + 8) );        
+        buff.classes.back().derived = line;
+    }
+    else
+    {
+        if(!buff.has_class)
+            return on_error;
+        if(fil(line, "no_set_get:", pos) && tar > pos)
+        {
+            pos += 11;
+            has_set_get = false;
+        }
+        else
+        {
+            pos = 0;            
+        }
         buff.classes.back().variables.push_back(
-            Cainit::Variable( line.substr(0, tar), line.substr(tar+1, end-tar-1) )
+            Cainit::Variable( line.substr(pos, tar - pos), line.substr(tar+1, end-tar-1), has_set_get )
         );
     }
     return on_success;

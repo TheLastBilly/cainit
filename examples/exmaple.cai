@@ -1,18 +1,14 @@
 # Comments are added by placing a '#' at the beggining of the line 
-
 # Files are declared using the "file [File name];" format
 #   At least one file is needed per config file (and it must be done before any other element), and there's where all of our classes will be in.
 #   Spaces on filenames will not be accepted. Be careful not to use reserved keywords or opertators
 # The naming rules for files are also the same for all other elements. 
 file MyFile;
-
 # Headers will be added as just like they're writen, so you'll need to add '< >' or '" "'.
 header <MyHeader>;
-
 # Classes are required in order to contain variables. Classes will contained all variables defined after it until 
 # another class is defined.
 class MyClass;
-
 varaible MyVar;
 
 

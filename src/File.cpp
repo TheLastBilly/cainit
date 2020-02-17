@@ -68,6 +68,8 @@ ErrorValue File::BuildSource()
     {
         for( Variable var : c.variables )
         {
+            if(!var.has_set_get)
+                continue;
             ss 
                 << "// " << var.name << " Get and Set\n"
                 << var.GetFuncDefinition( c.name ) << "\n"
@@ -97,18 +99,23 @@ ErrorValue File::BuildHeader()
         //Variables methods and declarations
         for( Variable var : c.variables )
         {
+            vars 
+                << "\t" << var.type << " " << var.name << ";\n";
+            if(!var.has_set_get)
+                continue;
             getset 
                 << "\t// " << var.name << " gets and sets\n"
                 << "\t" << var.GetFuncDeclaration() << "\n"
                 << "\t" << var.SetFuncDeclaration() << "\n";
-            vars 
-                << "\t" << var.type << " " << var.name << ";\n";
         }
 
         ss 
         //Class declaration
-            << "class " << c.name << "\n"
-            << "{\npublic:\n"
+            << "class " << c.name;
+        if(c.derived.size() > 0)
+            ss << ": public " << c.derived;
+        ss
+            << "\n{\npublic:\n"
         //Class constructor        
             << "\t" << c.name << "();\n"
         //Copy constructor        
