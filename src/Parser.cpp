@@ -63,7 +63,7 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
         Cainit::ErrorValue on_error = Cainit::ErrorValue::FILE_FORMAT_ERROR;
     static const
         Cainit::ErrorValue on_success = Cainit::ErrorValue::A_OK;
-    if(!fil(line, ";", end) || !fil(line, " ", tar) || end < tar)
+    if(!fil(line, ";", end) || !fil_l(line, " ", tar) || end < tar)
         return Cainit::ErrorValue::FILE_FORMAT_ERROR;
     else if(fil(line,"file", pos) && pos < end )
     {
@@ -153,4 +153,8 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
 inline bool Parser::fil( std::string line, const char * find, size_t & pos)
 {
     return (pos = line.find(find)) != std::string::npos;
+}
+inline bool Parser::fil_l( std::string line, const char * find, size_t & pos)
+{
+    return (pos = line.find_last_of(find, std::string::npos)) != std::string::npos;
 }
