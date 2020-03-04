@@ -84,6 +84,11 @@ ErrorValue File::BuildSource()
                 << var.GetFuncDefinition( c.name ) << "\n"
                 << var.SetFuncDefinition( c.name ) << "\n\n";
         }
+        for( Function f : c.functions )
+        {
+            ss 
+                << f.FuncDefinition( c.name ) << "\n";
+        }
     }
 
     definitions.name = name + ".cpp";
@@ -93,7 +98,7 @@ ErrorValue File::BuildSource()
 
 ErrorValue File::BuildHeader()
 {
-    std::stringstream ss, getset, vars, con;
+    std::stringstream ss, getset, vars, con, funcs;
     ss << "#pragma once\n\n";
 
     for( Header h : headers )
@@ -117,6 +122,13 @@ ErrorValue File::BuildHeader()
                 << "\t" << var.SetFuncDeclaration() << "\n";
         }
 
+        //Function declarations
+        for( Function f : c.functions )
+        {
+            funcs
+                << "\t" << f.FuncDeclaration() << "\n";
+        }
+
         ss 
         //Class declaration
             << "class " << c.name;
@@ -133,6 +145,9 @@ ErrorValue File::BuildHeader()
         
         //Add get and set functions
         ss << "\n" << getset.str();
+
+        //Add function definitions
+        ss << "\n" << funcs.str();
 
         //Add variable declarations
         ss 

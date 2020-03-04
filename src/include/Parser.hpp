@@ -47,4 +47,8 @@ private:
     //Varaibles and methods used by the parsing process
     size_t pos = 0, end = 0, tar = 0;
     static inline bool fil( std::string line, const char * find, size_t & pos);
+    std::string
+        param_b,
+        name_b,
+        type_b;
 };

@@ -97,6 +97,41 @@ std::string Variable::SetFuncDefinition( std::string class_name )
     return (set_func_def = ss.str());
 }
 
+Function::Function()
+{}
+
+Function::Function( std::string type, std::string name, std::string param ):
+type(type), name(name), param(param)
+{}
+
+Function::Function( const Function & function )
+{
+    type = function.type;
+    name = function.name;
+    param = function.param;
+}
+
+std::string Function::FuncDeclaration()
+{
+    return type + " " + name + "( " + param + " );";
+}
+
+std::string Function::FuncDefinition()
+{
+    return FuncDefinition( "" );
+}
+
+std::string Function::FuncDefinition( std::string class_name )
+{
+    std::stringstream ss;
+    ss << 
+        type << " " << (class_name.empty() ? "" : class_name + "::") << name << "( " << param << " )\n" <<
+        "{\n" <<
+        "\treturn" << (type == std::string("void") ? "" :  " " + type) << ";\n" << 
+        "}\n";
+    return ss.str();
+}
+
 Header::Header( std::string name ):
 name(name)
 {}
@@ -115,6 +150,7 @@ Class::Class( const Class &c )
     name = c.name;
     derived = c.derived;
     variables = c.variables;
+    functions = c.functions;
 }
 
 CodeFile::CodeFile()

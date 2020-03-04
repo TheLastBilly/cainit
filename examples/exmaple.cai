@@ -10,5 +10,4 @@ header <MyHeader>;
 # another class is defined.
 class MyClass;
 varaible MyVar;
-
-
+function void hola int test;

@@ -104,6 +104,32 @@ Parser::ParseLine( std::string line, ParserBuffer &buff )
         line = line.substr( pos + 8, end - (pos + 8) );        
         buff.classes.back().derived = line;
     }
+    else if(fil(line, "function", pos) && pos < end)
+    {
+        if(!buff.has_class)
+            return on_error;
+
+        line = line.substr( pos + 9, end - (pos + 9) );
+
+        //Get the type
+        if((pos = line.find(" ")) == std::string::npos)
+            return on_error;
+        type_b = line.substr( 0, pos );
+        
+        //Get the name
+        pos++;
+        if((end = line.find(" ", pos)) == std::string::npos)
+            return on_error;
+        name_b = line.substr( pos, end - pos );
+        std::cout << name_b << "\n";
+        
+        //Get the parameters
+        if((line.size() - end -1) < 1)
+            return on_error;
+        param_b = line.substr( end+1, std::string::npos );
+
+        buff.classes.back().functions.push_back( Cainit::Function( type_b, name_b, param_b ) );
+    }
     else
     {
         if(!buff.has_class)

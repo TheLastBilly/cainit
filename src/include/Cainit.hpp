@@ -53,6 +53,25 @@ namespace Cainit
     };
     typedef std::vector<Variable> variable_v;
 
+    class Function
+    {
+    public:
+        Function();
+        Function( std::string type, std::string name, std::string param );
+        Function( const Function & function );
+        
+        std::string FuncDeclaration();
+
+        std::string FuncDefinition( );
+        std::string FuncDefinition( std::string class_name );
+        
+        std::string 
+            name,
+            type,
+            param;    
+    };
+    typedef std::vector<Function> function_v;
+
     class Header
     {
     public:
@@ -71,6 +90,7 @@ namespace Cainit
             name,
             derived;
         variable_v variables;
+        function_v functions;
     };
     typedef std::vector<Class> class_v;
 
