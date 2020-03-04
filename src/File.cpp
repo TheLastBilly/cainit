@@ -139,7 +139,7 @@ ErrorValue File::BuildHeader()
         //Class constructor        
             << "\t" << c.name << "();\n"
         //Copy constructor        
-            << "\t" << c.name << "( const " << c.name << " &" << c.name[0] << ");\n"
+            << "\t" << c.name << "( const " << c.name << " &" << c.name[0] << " );\n"
         //Class destructor        
             << "\t~" << c.name << "();\n";
         
